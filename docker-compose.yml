@@ -1,0 +1,47 @@
+version: '3.8'
+services:
+  postgres:
+    image: postgis/postgis:15-3.3
+    container_name: ib_postgres
+    environment:
+      POSTGRES_USER: ${DB_USER:-ib_admin}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-ib_secret}
+      POSTGRES_DB: ${DB_NAME:-ib_marketplace}
+    ports: ["5432:5432"]
+    volumes: ["pgdata:/var/lib/postgresql/data"]
+    networks: ["ib_network"]
+    restart: unless-stopped
+  redis:
+    image: redis:7.2-alpine
+    container_name: ib_redis
+    ports: ["6379:6379"]
+    volumes: ["redisdata:/data"]
+    networks: ["ib_network"]
+    restart: unless-stopped
+  rabbitmq:
+    image: rabbitmq:3.12-management-alpine
+    container_name: ib_rabbitmq
+    environment:
+      RABBITMQ_DEFAULT_USER: ${RMQ_USER:-guest}
+      RABBITMQ_DEFAULT_PASS: ${RMQ_PASS:-guest}
+    ports: ["5672:5672", "15672:15672"]
+    networks: ["ib_network"]
+    restart: unless-stopped
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.10.2
+    container_name: ib_elasticsearch
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+      - "ES_JAVA_OPTS=-Xms1g -Xmx1g"
+    ports: ["9200:9200"]
+    volumes: ["esdata:/usr/share/elasticsearch/data"]
+    networks: ["ib_network"]
+    restart: unless-stopped
+networks:
+  ib_network:
+    driver: bridge
+volumes:
+  pgdata:
+  redisdata:
+  esdata:
