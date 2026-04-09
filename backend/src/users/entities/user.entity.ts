@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, Check, OneToMany } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, OneToMany } from 'typeorm';
 import { EntityLocation } from '../../location/entities/entity_location.entity';
 
 export enum RegulatoryRegime { EU = 'eu', UK = 'uk' }
@@ -6,7 +6,6 @@ export enum VerificationTier { BASIC = 'basic', STANDARD = 'standard', PREMIUM =
 export enum EntityType { LIMITED_COMPANY = 'limited_company', PUBLIC_LIMITED = 'public_limited', SOLE_TRADER = 'sole_trader', PUBLIC_AUTHORITY = 'public_authority' }
 
 @Entity('users')
-@Check(`entity_type != 'individual'`)
 export class User {
   @PrimaryGeneratedColumn('uuid') id: string;
   @Column({ type: 'varchar', length: 255 }) company_name: string;
