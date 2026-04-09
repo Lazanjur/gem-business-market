@@ -169,7 +169,7 @@ export default function Register() {
                     </label>
                   </div>
                   <Button type="submit" className="w-full" isLoading={isLoading}>Create account →</Button>
-                  <Button type="button" variant="outline" className="w-full" onClick={() => setStep(1)}>Back</Button>
+                  <Button type="button" variant="secondary" className="w-full" onClick={() => setStep(1)}>Back</Button>
                 </form>
                 <p className="mt-6 text-center text-sm text-slate-500">Already have an account? <Link href="/login" className="text-ib-blue font-semibold">Sign in</Link></p>
               </>
